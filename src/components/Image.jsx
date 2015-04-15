@@ -12,12 +12,16 @@ var Image = React.createClass({
 
   componentDidMount() {
     setInterval(() => {
-      this.setState('counter', this.state.counter + 1);
+      this.setState({ counter: this.state.counter + 1 });
     }, this.props.interval || 60000);
   },
 
   render() {
     var url = this.props.url;
+    var divStyle = {
+      backgroundImage: 'url(' + url + ')',
+      backgroundSize: this.props.backgroundSize || 'cover'
+    };
 
     return (
       <div>
@@ -26,10 +30,12 @@ var Image = React.createClass({
           <i className="fa fa-picture-o" />
         </div>
         <div className="widget__body">
-          <img href={url} />
+          <div className="image__background" style={divStyle}></div>
         </div>
       </div>
     );
   }
 
 });
+
+module.exports = Image;

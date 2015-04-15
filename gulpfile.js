@@ -1,11 +1,8 @@
-var gulp = require('gulp')
-var del = require('del')
-var rename = require('gulp-rename')
-var toFive = require('gulp-6to5')
-var plumber = require('gulp-plumber')
-var replace = require('gulp-regex-replace')
-var stripDebug = require('gulp-strip-debug');
-var gulpIf = require('gulp-if');
+var _ = require('lodash');
+var gulp = require('gulp');
+var del = require('del');
+var plug = require('gulp-load-plugins')();
+
 
 var isProduction = function(file) {
   return process.env.NODE_ENV === 'production';
@@ -22,12 +19,24 @@ gulp.task('lib-compile', [ 'lib-clean' ], function(){
     '!./src/preprocessor.js',
     '!./src/__tests__/**'
   ])
-  .pipe(plumber())
-  .pipe(toFive({}))
-  .pipe(replace({regex: "\\.jsx", replace: ''}))
-  .pipe(rename({ extname: '.js' }))
-  .pipe(gulpIf(isProduction, stripDebug()))
+  .pipe(plug.plumber())
+  .pipe(plug.babel({}))
+  .pipe(plug.regexReplace({regex: "\\.jsx", replace: ''}))
+  .pipe(plug.rename({ extname: '.js' }))
+  .pipe(plug.if(isProduction, plug.stripDebug()))
   .pipe(gulp.dest('./lib'));
+});
+
+gulp.task('test', ['lib'], function () {
+  return gulp.src('spec/*.js')
+  .pipe(plug.jasmine({
+    verbose: true,
+    includeStackTrace: true
+  }));
+});
+
+gulp.task('watch', ['lib'], function() {
+  return gulp.watch(['./src/**/*.*'], ['lib', 'test']);
 });
 
 gulp.task('lib', ['lib-clean', 'lib-compile']);
