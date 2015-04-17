@@ -28,6 +28,7 @@ Show the image in widget.
 key                | required | description
 -------------------|----------|---------------
 `url`              | yes      | *URL to an image*
+`title`            | no       | *Title to show in widget. Defaults to URL*
 `refreshInterval`  | no       | *Image refreshing interval in milliseconds. Defaults to no refresh*
 
 ### usage
@@ -35,6 +36,7 @@ key                | required | description
 ```javascript
 {
   type: 'image.image',
+  title: 'My webcam',
   url: 'http://domain.com/webcam.jpg',
   // Refresh every 30sec
   refreshInterval: 30000,

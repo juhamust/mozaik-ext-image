@@ -2,6 +2,7 @@ var url = require('url');
 var React  = require('react');
 var classSet = require('react-classset');
 
+var intervalHandle;
 
 var Image = React.createClass({
 
@@ -12,8 +13,10 @@ var Image = React.createClass({
     };
   },
 
-  componentWillMount() {
-    this.props
+  componentWillUnmount() {
+    if (intervalHandle) {
+      clearInterval(intervalHandle);
+    }
   },
 
   componentDidMount() {
@@ -23,7 +26,19 @@ var Image = React.createClass({
     purl.search = undefined;
     purl.query.counter = purl.query.counter || this.state.counter;
 
-    setInterval(() => {
+    // In a case no interval defined, just set static URL
+    if (!this.props.refreshInterval) {
+      this.setState({
+        url: this.props.url
+      });
+      return;
+    }
+
+    if(intervalHandle) {
+      clearInterval(intervalHandle);
+    }
+
+    intervalHandle = setInterval(() => {
       counter= parseInt(this.state.counter, 10) + 1
       purl.query.counter = counter.toString();
 
@@ -31,7 +46,7 @@ var Image = React.createClass({
         counter: counter,
         url: url.format(purl)
       });
-    }, this.props.interval || 60000);
+    }, this.props.refreshInterval || 60000);
   },
 
   render() {
@@ -48,9 +63,7 @@ var Image = React.createClass({
           <i className="fa fa-picture-o" />
         </div>
         <div className="widget__body">
-          <div style={prevStyle}>
-            <div className="image__background" style={divStyle}>
-          </div>
+          <div className="image__background" style={divStyle}></div>
         </div>
       </div>
     );
