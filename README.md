@@ -27,9 +27,9 @@ Show the image in widget.
 
 key                | required | description
 -------------------|----------|---------------
-`url`              | yes      | *URL to an image*
+`url`              | yes      | *URL to an image. Refreshing is done automatically by adding/incrementing counter attribute*
 `title`            | no       | *Title to show in widget. Defaults to URL*
-`refreshInterval`  | no       | *Image refreshing interval in milliseconds. Defaults to no refresh*
+`refreshInterval`  | no       | *Image refreshing interval in seconds. Defaults to no refresh. Example: 30*
 
 ### usage
 
@@ -38,8 +38,8 @@ key                | required | description
   type: 'image.image',
   title: 'My webcam',
   url: 'http://domain.com/webcam.jpg',
-  // Refresh every 30sec
-  refreshInterval: 30000,
+  // Refresh every 30s
+  refreshInterval: 30,
   columns: 1, rows: 1,
   x: 0, y: 0
 }

@@ -1,4 +1,6 @@
-var url = require('url');
+/* jshint esnext: true */
+var _ = require('lodash');
+var urlib = require('url');
 var React  = require('react');
 var classSet = require('react-classset');
 
@@ -8,7 +10,8 @@ var Image = React.createClass({
 
   getInitialState() {
     return {
-      url: this.props.url,
+      url: null,
+      prevUrl: null,
       counter: 0
     };
   },
@@ -21,15 +24,18 @@ var Image = React.createClass({
 
   componentDidMount() {
     var counter;
-    var purl = url.parse(this.props.url, true);
-    purl.query = purl.query || {};
-    purl.search = undefined;
-    purl.query.counter = purl.query.counter || this.state.counter;
+    var url = urlib.parse(this.props.url, true);
+
+
+    url.query = url.query || {};
+    url.search = undefined;
+    url.query.counter = url.query.counter || this.state.counter;
 
     // In a case no interval defined, just set static URL
     if (!this.props.refreshInterval) {
       this.setState({
-        url: this.props.url
+        url: url,
+        prevUrl: url
       });
       return;
     }
@@ -38,22 +44,40 @@ var Image = React.createClass({
       clearInterval(intervalHandle);
     }
 
+    this.props.refreshInterval = parseInt(this.props.refreshInterval, 10);
+
     intervalHandle = setInterval(() => {
-      counter= parseInt(this.state.counter, 10) + 1
-      purl.query.counter = counter.toString();
+      var prevUrl = _.cloneDeep(url);
+      counter = parseInt(this.state.counter, 10) + 1;
+      url.query.counter = counter.toString();
+      //console.log('prev', prevUrl.query.counter, ' - url', url.query.counter);
 
       this.setState({
         counter: counter,
-        url: url.format(purl)
+        prevUrl: prevUrl,
+        url: url
       });
-    }, this.props.refreshInterval || 60000);
+    }, (this.props.refreshInterval * 1000));
+  },
+
+  afterImageLoad() {
+    // No-op
   },
 
   render() {
-    var url = this.state.url;
+    var url = urlib.format(this.state.url);
+    var prevUrl = urlib.format(this.state.prevUrl);
+
+    var prevStyle = {
+      backgroundImage: 'url(' + prevUrl + ')',
+      backgroundSize: this.props.backgroundSize || 'cover'
+    };
     var divStyle = {
       backgroundImage: 'url(' + url + ')',
       backgroundSize: this.props.backgroundSize || 'cover'
+    }
+    var imgStyle = {
+      display: 'none'
     };
 
     return (
@@ -63,7 +87,10 @@ var Image = React.createClass({
           <i className="fa fa-picture-o" />
         </div>
         <div className="widget__body">
-          <div className="image__background" style={divStyle}></div>
+          <img src={prevUrl} style={imgStyle} onload={this.afterImageLoad()}></img>
+          <div className="image__background" style={prevStyle}>
+            <div className="image__background" style={divStyle}></div>
+          </div>
         </div>
       </div>
     );
