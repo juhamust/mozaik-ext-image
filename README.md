@@ -2,6 +2,8 @@
 
 Show image in a widget. Supports also refreshing the image in timely bases, making it handy for webcams, daily comics or kittens :)
 
+![preview](https://raw.githubusercontent.com/juhamust/mozaik-ext-image/master/preview.png)
+
 **Table of contents**
 <!-- MarkdownTOC depth=0 autolink=true bracket=round -->
 
@@ -27,9 +29,9 @@ Show the image in widget.
 
 key                | required | description
 -------------------|----------|---------------
-`url`              | yes      | *URL to an image. Refreshing is done automatically by adding/incrementing counter attribute*
+`url`              | yes      | *URL to an image.*
 `title`            | no       | *Title to show in widget. Defaults to URL*
-`refreshInterval`  | no       | *Image refreshing interval in seconds. Defaults to no refresh. Example: 30*
+`refreshInterval`  | no       | *Image refreshing interval in seconds (refreshing is done automatically by adding/incrementing counter attribute). Defaults to no refresh. Example: 30*
 
 ### usage
 
