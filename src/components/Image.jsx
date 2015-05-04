@@ -70,15 +70,31 @@ var Image = React.createClass({
 
     var prevStyle = {
       backgroundImage: 'url(' + prevUrl + ')',
-      backgroundSize: this.props.backgroundSize || 'cover'
+      backgroundSize: this.props.backgroundSize || 'cover',
+      backgroundColor: this.props.backgroundColor
     };
     var divStyle = {
       backgroundImage: 'url(' + url + ')',
-      backgroundSize: this.props.backgroundSize || 'cover'
-    }
+      backgroundSize: this.props.backgroundSize || 'cover',
+      backgroundColor: this.props.backgroundColor
+    };
+    var wrapStyle = _.defaults((this.props.wrapStyle || {}), {
+      height: '100%'
+    });
     var imgStyle = {
       display: 'none'
     };
+
+    // If refreshing is in use, do double-buffering
+    var imageArea = (<div className="image__background" style={divStyle}></div>);
+    if (this.props.refreshInterval) {
+      imageArea = (<div style={wrapStyle}>
+        <img src={prevUrl} style={imgStyle} onload={this.afterImageLoad()} />
+        <div className="image__background" style={prevStyle}>
+          <div className="image__background" style={divStyle}></div>
+        </div>
+      </div>);
+    }
 
     return (
       <div>
@@ -87,10 +103,7 @@ var Image = React.createClass({
           <i className="fa fa-picture-o" />
         </div>
         <div className="widget__body">
-          <img src={prevUrl} style={imgStyle} onload={this.afterImageLoad()}></img>
-          <div className="image__background" style={prevStyle}>
-            <div className="image__background" style={divStyle}></div>
-          </div>
+          {imageArea}
         </div>
       </div>
     );
