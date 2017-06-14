@@ -1,6 +1,6 @@
 {
   "name": "mozaik-ext-image",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Mozaïk image extension",
   "engines": {
     "node": "0.10.x"

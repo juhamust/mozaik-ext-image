@@ -32,6 +32,8 @@ key                | required | description
 `url`              | yes      | *URL to an image.*
 `title`            | no       | *Title to show in widget. Defaults to URL*
 `refreshInterval`  | no       | *Image refreshing interval in seconds (refreshing is done automatically by adding/incrementing counter attribute). Defaults to no refresh. Example: 30*
+`backgroundSize`   | no       | *Image size (set as background image). Defaults to 'cover'*
+`backgroundColor`  | no       | *Background color, handy with transparent images. Defaults to parent color*
 
 ### usage
 
@@ -40,6 +42,7 @@ key                | required | description
   type: 'image.image',
   title: 'My webcam',
   url: 'http://domain.com/webcam.jpg',
+  backgroundSize: 'cover',
   // Refresh every 30s
   refreshInterval: 30,
   columns: 1, rows: 1,
