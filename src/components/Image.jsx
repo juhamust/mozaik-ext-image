@@ -7,6 +7,13 @@ var classSet = require('react-classset');
 var intervalHandle;
 
 var Image = React.createClass({
+  propTypes: {
+    url: React.PropTypes.string.isRequired,
+    refreshInterval: React.PropTypes.number.isRequired,
+    backgroundSize: React.PropTypes.string,
+    backgroundColor: React.PropTypes.string,
+    wrapStyle: React.PropTypes.object,
+  },
 
   getInitialState() {
     return {
@@ -40,7 +47,7 @@ var Image = React.createClass({
       return;
     }
 
-    if(intervalHandle) {
+    if (intervalHandle) {
       clearInterval(intervalHandle);
     }
 
@@ -65,8 +72,8 @@ var Image = React.createClass({
   },
 
   render() {
-    var url = urlib.format(this.state.url);
-    var prevUrl = urlib.format(this.state.prevUrl);
+    var url = urlib.format(this.state.url || this.props.url);
+    var prevUrl = urlib.format(this.state.prevUrl || this.state.url || this.props.url);
 
     var prevStyle = {
       backgroundImage: 'url(' + prevUrl + ')',
@@ -76,7 +83,8 @@ var Image = React.createClass({
     var divStyle = {
       backgroundImage: 'url(' + url + ')',
       backgroundSize: this.props.backgroundSize || 'cover',
-      backgroundColor: this.props.backgroundColor
+      backgroundColor: this.props.backgroundColor,
+      backgroundPosition: this.props.backgroundPosition || 'center center',
     };
     var wrapStyle = _.defaults((this.props.wrapStyle || {}), {
       height: '100%'
@@ -96,12 +104,19 @@ var Image = React.createClass({
       </div>);
     }
 
-    return (
-      <div>
+    var header;
+    if (this.props.title && this.props.title.length > 0) {
+      header = (
         <div className="widget__header">
-          {this.props.title || this.props.url}
+          {this.props.title}
           <i className="fa fa-picture-o" />
         </div>
+      );
+    }
+
+    return (
+      <div>
+        {header}
         <div className="widget__body">
           {imageArea}
         </div>
