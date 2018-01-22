@@ -1,38 +1,35 @@
-/* jshint esnext: true */
-var _ = require('lodash');
-var urlib = require('url');
-var React  = require('react');
-var classSet = require('react-classset');
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
-var intervalHandle;
+let intervalHandle;
 
-var Image = React.createClass({
-  propTypes: {
-    url: React.PropTypes.string.isRequired,
-    refreshInterval: React.PropTypes.number.isRequired,
-    backgroundSize: React.PropTypes.string,
-    backgroundColor: React.PropTypes.string,
-    wrapStyle: React.PropTypes.object,
-  },
+const ImageWrapper = styled.div``;
 
-  getInitialState() {
-    return {
+const ImageCanvas = styled.div`
+  width: 100%;
+  height: 100%;
+`;
+
+class Image extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
       url: null,
       prevUrl: null,
-      counter: 0
-    };
-  },
+      counter: 0,
+    }
+  }
 
   componentWillUnmount() {
     if (intervalHandle) {
       clearInterval(intervalHandle);
     }
-  },
+  }
 
   componentDidMount() {
-    var counter;
-    var url = urlib.parse(this.props.url, true);
-
+    let counter = 0;
+    //var url = urlib.parse(this.props.url, true);
 
     url.query = url.query || {};
     url.search = undefined;
@@ -65,43 +62,45 @@ var Image = React.createClass({
         url: url
       });
     }, (this.props.refreshInterval * 1000));
-  },
+  }
 
   afterImageLoad() {
     // No-op
-  },
+  }
 
   render() {
-    var url = urlib.format(this.state.url || this.props.url);
-    var prevUrl = urlib.format(this.state.prevUrl || this.state.url || this.props.url);
+    const url = urlib.format(this.state.url || this.props.url);
+    const prevUrl = urlib.format(this.state.prevUrl || this.state.url || this.props.url);
 
-    var prevStyle = {
-      backgroundImage: 'url(' + prevUrl + ')',
+    const prevStyle = {
+      backgroundImage: `url(${prevUrl})`,
       backgroundSize: this.props.backgroundSize || 'cover',
-      backgroundColor: this.props.backgroundColor
+      backgroundColor: this.props.backgroundColor,
     };
-    var divStyle = {
-      backgroundImage: 'url(' + url + ')',
+    const divStyle = {
+      backgroundImage: `url(${url})`,
       backgroundSize: this.props.backgroundSize || 'cover',
       backgroundColor: this.props.backgroundColor,
       backgroundPosition: this.props.backgroundPosition || 'center center',
     };
-    var wrapStyle = _.defaults((this.props.wrapStyle || {}), {
-      height: '100%'
+    const wrapStyle = Object.assign({}, this.props.wrapStyle, {
+      height: '100%',
     });
-    var imgStyle = {
+    const imgStyle = {
       display: 'none'
     };
 
     // If refreshing is in use, do double-buffering
-    var imageArea = (<div className="image__background" style={divStyle}></div>);
+    let imageArea = (<ImageCanvas style={divStyle} />);
     if (this.props.refreshInterval) {
-      imageArea = (<div style={wrapStyle}>
-        <img src={prevUrl} style={imgStyle} onload={this.afterImageLoad()} />
-        <div className="image__background" style={prevStyle}>
-          <div className="image__background" style={divStyle}></div>
-        </div>
-      </div>);
+      imageArea = (
+        <ImageWrapper style={wrapStyle}>
+          <img src={prevUrl} style={imgStyle} onLoad={this.afterImageLoad()} />
+          <ImageCanvas style={prevStyle}>
+            <ImageCanvas style={divStyle} />
+          </ImageCanvas>
+        </ImageWrapper>
+      );
     }
 
     var header;
@@ -124,6 +123,18 @@ var Image = React.createClass({
     );
   }
 
-});
+}
 
-module.exports = Image;
+Image.propTypes = {
+  url: PropTypes.string.isRequired,
+  refreshInterval: PropTypes.number,
+  backgroundSize: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  wrapStyle: PropTypes.object,
+}
+
+Image.defaultProps = {
+  refreshInterval: 5000,
+}
+
+export default Image

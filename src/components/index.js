@@ -1,3 +1,5 @@
-module.exports = {
-  Image: require('./Image.jsx'),
+import Image from './Image'
+
+export default {
+  Image,
 };

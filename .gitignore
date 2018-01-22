@@ -1,3 +1,10 @@
-node_modules
+/node_modules
 npm-debug.log
-lib
+/lib
+/es
+.DS_Store
+.node-version
+.idea
+*.log*
+/.nyc_output
+/coverage
