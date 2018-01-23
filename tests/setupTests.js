@@ -1,6 +1,6 @@
-import Enzyme, { shallow, render, mount } from 'enzyme'
-import EnzymeAdapter from 'enzyme-adapter-react-15'
-import 'jest-styled-components'
+import Enzyme, { shallow, render, mount } from 'enzyme';
+import EnzymeAdapter from 'enzyme-adapter-react-15';
+import 'jest-styled-components';
 
 Enzyme.configure({ adapter: new EnzymeAdapter() })
 
