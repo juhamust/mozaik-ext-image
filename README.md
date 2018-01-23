@@ -31,7 +31,7 @@ key                   | required | description
 ----------------------|----------|---------------
 `url`                 | yes      | *URL to an image.*
 `title`               | no       | *Title to show in widget. Defaults to URL*
-`refreshInterval`     | no       | *Image refreshing interval in seconds (refreshing is done automatically by adding/incrementing counter attribute). Defaults to no refresh. Example: 30*
+`refreshInterval`     | no       | *Image refreshing interval in milliseconds (refreshing is done automatically by adding/incrementing counter attribute). Defaults to no refresh. Example: 3000*
 `backgroundSize`      | no       | *Image size (set as background image). Defaults to 'cover'*
 `backgroundColor`     | no       | *Background color, handy with transparent images. Defaults to parent color*
 `backgroundPosition`  | no       | *Background position, defaults to 'center center'*
@@ -45,8 +45,8 @@ key                   | required | description
   url: 'http://domain.com/webcam.jpg',
   backgroundSize: 'cover',
   backgroundPosition: 'center -7vh',
-  // Refresh every 30s
-  refreshInterval: 30,
+  // Refresh every 5s
+  refreshInterval: 5000,
   columns: 1, rows: 1,
   x: 0, y: 0
 }

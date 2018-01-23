@@ -1,4 +1,9 @@
-const Enzyme = require('enzyme');
-const EnzymeAdapter = require('enzyme-adapter-react-15');
+import Enzyme, { shallow, render, mount } from 'enzyme'
+import EnzymeAdapter from 'enzyme-adapter-react-15'
 
-Enzyme.configure({ adapter: new EnzymeAdapter() });
+Enzyme.configure({ adapter: new EnzymeAdapter() })
+
+// Make Enzyme functions available in all test files without importing
+global.shallow = shallow
+global.render = render
+global.mount = mount

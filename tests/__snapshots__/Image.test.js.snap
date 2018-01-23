@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<Image
+  backgroundPosition="center center"
+  backgroundSize="cover"
+  refreshInterval="5000"
+  url="http://domain.com/image.png"
+>
+  <div>
+    <div
+      className="widget__body"
+    >
+      <styled.div
+        style={
+          Object {
+            "height": "100%",
+          }
+        }
+      >
+        <div
+          className="sc-bdVaJa bDWFJH"
+          style={
+            Object {
+              "height": "100%",
+            }
+          }
+        >
+          <img
+            src="http://domain.com/image.png"
+            style={
+              Object {
+                "display": "none",
+              }
+            }
+          />
+          <styled.div
+            style={
+              Object {
+                "backgroundColor": undefined,
+                "backgroundImage": "url(http://domain.com/image.png)",
+                "backgroundSize": "cover",
+              }
+            }
+          >
+            <div
+              className="sc-bwzfXH dcwtMI"
+              style={
+                Object {
+                  "backgroundColor": undefined,
+                  "backgroundImage": "url(http://domain.com/image.png)",
+                  "backgroundSize": "cover",
+                }
+              }
+            >
+              <styled.div
+                style={
+                  Object {
+                    "backgroundColor": undefined,
+                    "backgroundImage": "url(http://domain.com/image.png)",
+                    "backgroundPosition": "center center",
+                    "backgroundSize": "cover",
+                  }
+                }
+              >
+                <div
+                  className="sc-bwzfXH dcwtMI"
+                  style={
+                    Object {
+                      "backgroundColor": undefined,
+                      "backgroundImage": "url(http://domain.com/image.png)",
+                      "backgroundPosition": "center center",
+                      "backgroundSize": "cover",
+                    }
+                  }
+                />
+              </styled.div>
+            </div>
+          </styled.div>
+        </div>
+      </styled.div>
+    </div>
+  </div>
+</Image>
+`;

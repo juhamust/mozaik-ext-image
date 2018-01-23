@@ -12,3 +12,8 @@ env:
 extends:
   - eslint:recommended
   - plugin:react/recommended
+globals:
+  shallow: true
+  mount: true
+  render: true
+
