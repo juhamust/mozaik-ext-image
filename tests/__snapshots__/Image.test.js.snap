@@ -1,6 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders 1`] = `
+.c0 {
+  width: 100%;
+  height: 100%;
+}
+
 <Image
   backgroundPosition="center center"
   backgroundSize="cover"
@@ -19,7 +24,7 @@ exports[`renders 1`] = `
         }
       >
         <div
-          className="sc-bdVaJa bDWFJH"
+          className=""
           style={
             Object {
               "height": "100%",
@@ -44,7 +49,7 @@ exports[`renders 1`] = `
             }
           >
             <div
-              className="sc-bwzfXH dcwtMI"
+              className="c0"
               style={
                 Object {
                   "backgroundColor": undefined,
@@ -64,7 +69,7 @@ exports[`renders 1`] = `
                 }
               >
                 <div
-                  className="sc-bwzfXH dcwtMI"
+                  className="c0"
                   style={
                     Object {
                       "backgroundColor": undefined,
