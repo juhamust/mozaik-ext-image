@@ -1,17 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`has optional title 1`] = `
-<div>
-  <div
-    className="widget__header"
-  >
-    My title
-    <i
-      className="fa fa-picture-o"
-    />
-  </div>
-  <div
-    className="widget__body"
+<Widget
+  style={Object {}}
+>
+  <WithTheme(WidgetHeader)
+    icon={[Function]}
+    subject="Status"
+    subjectPlacement="append"
+    title="My title"
+  />
+  <WidgetBody
+    style={Object {}}
   >
     <styled.div
       style={
@@ -49,95 +49,53 @@ exports[`has optional title 1`] = `
         />
       </styled.div>
     </styled.div>
-  </div>
-</div>
+  </WidgetBody>
+</Widget>
 `;
 
 exports[`matches with snapshot 1`] = `
-.c0 {
-  width: 100%;
-  height: 100%;
-}
-
-<Image
-  backgroundPosition="center center"
-  backgroundSize="cover"
-  refreshInterval="5000"
-  url="http://domain.com/image.png"
+<Widget
+  style={Object {}}
 >
-  <div>
-    <div
-      className="widget__body"
+  <WidgetBody
+    style={Object {}}
+  >
+    <styled.div
+      style={
+        Object {
+          "height": "100%",
+        }
+      }
     >
+      <img
+        src="http://domain.com/image.png"
+        style={
+          Object {
+            "display": "none",
+          }
+        }
+      />
       <styled.div
         style={
           Object {
-            "height": "100%",
+            "backgroundColor": undefined,
+            "backgroundImage": "url(http://domain.com/image.png)",
+            "backgroundSize": "cover",
           }
         }
       >
-        <div
-          className=""
+        <styled.div
           style={
             Object {
-              "height": "100%",
+              "backgroundColor": undefined,
+              "backgroundImage": "url(http://domain.com/image.png)",
+              "backgroundPosition": "center center",
+              "backgroundSize": "cover",
             }
           }
-        >
-          <img
-            src="http://domain.com/image.png"
-            style={
-              Object {
-                "display": "none",
-              }
-            }
-          />
-          <styled.div
-            style={
-              Object {
-                "backgroundColor": undefined,
-                "backgroundImage": "url(http://domain.com/image.png)",
-                "backgroundSize": "cover",
-              }
-            }
-          >
-            <div
-              className="c0"
-              style={
-                Object {
-                  "backgroundColor": undefined,
-                  "backgroundImage": "url(http://domain.com/image.png)",
-                  "backgroundSize": "cover",
-                }
-              }
-            >
-              <styled.div
-                style={
-                  Object {
-                    "backgroundColor": undefined,
-                    "backgroundImage": "url(http://domain.com/image.png)",
-                    "backgroundPosition": "center center",
-                    "backgroundSize": "cover",
-                  }
-                }
-              >
-                <div
-                  className="c0"
-                  style={
-                    Object {
-                      "backgroundColor": undefined,
-                      "backgroundImage": "url(http://domain.com/image.png)",
-                      "backgroundPosition": "center center",
-                      "backgroundSize": "cover",
-                    }
-                  }
-                />
-              </styled.div>
-            </div>
-          </styled.div>
-        </div>
+        />
       </styled.div>
-    </div>
-  </div>
-</Image>
+    </styled.div>
+  </WidgetBody>
+</Widget>
 `;

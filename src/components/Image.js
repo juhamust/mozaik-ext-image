@@ -1,7 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import querystring from 'querystring'
+import parseUrl from 'url-parse'
 import styled from 'styled-components'
+import FileImageO from 'react-icons/lib/fa/file-image-o'
+import { Widget, WidgetHeader, WidgetBody } from '@mozaik/ui'
 
 let intervalHandle
 
@@ -30,37 +32,39 @@ class Image extends Component {
 
     componentDidMount() {
         let counter = 0
-        const url = querystring.parse(this.props.url)
+        const parsedUrl = parseUrl(this.props.url)
 
-        url.query = url.query || {}
-        url.search = undefined
-        url.query.counter = url.query.counter || this.state.counter
+        parsedUrl.query = parsedUrl.query || {}
+        parsedUrl.search = undefined
+        parsedUrl.query.counter = parsedUrl.query.counter || this.state.counter
 
         // In a case no interval defined, just set static URL
+        const refreshInterval = parseInt(this.props.refreshInterval, 10)
+
+        // No refresh
         if (!this.props.refreshInterval) {
             this.setState({
-                currentUrl: url,
-                prevUrl: url,
+                currentUrl: parsedUrl.toString(),
+                prevUrl: parsedUrl.toString(),
             })
             return
         }
 
+        // Set new update interval while removing existing
         if (intervalHandle) {
             clearInterval(intervalHandle)
         }
 
-        const refreshInterval = parseInt(this.props.refreshInterval, 10)
-
         intervalHandle = setInterval(() => {
-            var prevUrl = Object.assign({}, url)
-            counter = parseInt(this.state.counter, 10) + 1
-            url.query.counter = counter.toString()
+            const parsedUrlNew = parseUrl(this.props.url, true)
+            parsedUrl.query.counter = parseInt(this.state.counter, 10) + 1
+
+            //url.query.counter = counter.toString()
             //console.log('prev', prevUrl.query.counter, ' - url', url.query.counter);
 
             this.setState({
                 counter: counter,
-                prevUrl: prevUrl,
-                currentUrl: url,
+                currentUrl: parsedUrlNew.toString(),
             })
         }, refreshInterval)
     }
@@ -73,6 +77,7 @@ class Image extends Component {
         const { backgroundColor, backgroundPosition, backgroundSize } = this.props
         const url = this.state.currentUrl || this.props.url
         const prevUrl = this.state.prevUrl || this.state.currentUrl || this.props.url
+
         const prevStyle = {
             backgroundImage: `url(${prevUrl})`,
             backgroundSize,
@@ -104,21 +109,18 @@ class Image extends Component {
             )
         }
 
-        let header
-        if (this.props.title && this.props.title.length > 0) {
-            header = (
-                <div className="widget__header">
-                    {this.props.title}
-                    <i className="fa fa-picture-o" />
-                </div>
-            )
-        }
-
         return (
-            <div>
-                {header}
-                <div className="widget__body">{imageArea}</div>
-            </div>
+            <Widget>
+                {this.props.title && (
+                    <WidgetHeader
+                        title={this.props.title}
+                        subject="Status"
+                        subjectPlacement="append"
+                        icon={FileImageO}
+                    />
+                )}
+                <WidgetBody>{imageArea}</WidgetBody>
+            </Widget>
         )
     }
 }
@@ -126,7 +128,7 @@ class Image extends Component {
 Image.propTypes = {
     url: PropTypes.string.isRequired,
     title: PropTypes.string,
-    refreshInterval: PropTypes.string,
+    refreshInterval: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     backgroundSize: PropTypes.string,
     backgroundColor: PropTypes.string,
     backgroundPosition: PropTypes.string,
@@ -134,7 +136,7 @@ Image.propTypes = {
 }
 
 Image.defaultProps = {
-    refreshInterval: '5000',
+    refreshInterval: 5000,
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
 }
