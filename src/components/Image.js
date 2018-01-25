@@ -57,11 +57,8 @@ class Image extends Component {
 
         intervalHandle = setInterval(() => {
             const parsedUrlNew = parseUrl(this.props.url, true)
-            parsedUrl.query.counter = parseInt(this.state.counter, 10) + 1
-
-            //url.query.counter = counter.toString()
-            //console.log('prev', prevUrl.query.counter, ' - url', url.query.counter);
-
+            counter = parseInt(this.state.counter, 10) + 1
+            parsedUrlNew.query.counter = counter
             this.setState({
                 counter: counter,
                 currentUrl: parsedUrlNew.toString(),
