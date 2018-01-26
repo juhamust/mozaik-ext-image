@@ -7,11 +7,17 @@ import { Widget, WidgetHeader, WidgetBody } from '@mozaik/ui'
 
 let intervalHandle
 
-const ImageWrapper = styled.div``
+const ImageWrapper = styled.div`
+    position: relative;
+`
 
 const ImageCanvas = styled.div`
     width: 100%;
     height: 100%;
+    position: absolute;
+    top: 0;
+    transition-property: opacity;
+    transition-duration: 4s;
 `
 
 class Image extends Component {
@@ -31,21 +37,14 @@ class Image extends Component {
     }
 
     componentDidMount() {
-        let counter = 0
-        const parsedUrl = parseUrl(this.props.url)
-
-        parsedUrl.query = parsedUrl.query || {}
-        parsedUrl.search = undefined
-        parsedUrl.query.counter = parsedUrl.query.counter || this.state.counter
-
         // In a case no interval defined, just set static URL
         const refreshInterval = parseInt(this.props.refreshInterval, 10)
 
         // No refresh
         if (!this.props.refreshInterval) {
             this.setState({
-                currentUrl: parsedUrl.toString(),
-                prevUrl: parsedUrl.toString(),
+                currentUrl: this.props.url,
+                prevUrl: this.props.url,
             })
             return
         }
@@ -56,52 +55,59 @@ class Image extends Component {
         }
 
         intervalHandle = setInterval(() => {
-            const parsedUrlNew = parseUrl(this.props.url, true)
-            counter = parseInt(this.state.counter, 10) + 1
-            parsedUrlNew.query.counter = counter
+            const nextCounterValue = this.state.counter + 1
             this.setState({
-                counter: counter,
-                currentUrl: parsedUrlNew.toString(),
+                counter: nextCounterValue,
+                currentUrl: this.getUniqueImageUrl(this.props.url, nextCounterValue),
+                prevUrl: this.getUniqueImageUrl(this.props.url, this.state.counter),
             })
         }, refreshInterval)
     }
 
-    afterImageLoad() {
-        // No-op
+    getUniqueImageUrl(imageUrl, counter = 0) {
+        const newImageUrl = parseUrl(imageUrl, true)
+        newImageUrl.query.counter = counter
+
+        return newImageUrl.toString()
     }
 
-    render() {
-        const { backgroundColor, backgroundPosition, backgroundSize } = this.props
-        const url = this.state.currentUrl || this.props.url
-        const prevUrl = this.state.prevUrl || this.state.currentUrl || this.props.url
-
-        const prevStyle = {
-            backgroundImage: `url(${prevUrl})`,
-            backgroundSize,
-            backgroundColor,
-        }
+    renderImage(imageUrl, style = {}) {
+        const { backgroundColor, backgroundPosition, backgroundSize, opacity } = style
         const divStyle = {
-            backgroundImage: `url(${url})`,
+            backgroundImage: `url(${imageUrl})`,
             backgroundSize,
             backgroundColor,
             backgroundPosition,
+            opacity: opacity !== undefined && opacity,
         }
+        return <ImageCanvas style={divStyle} />
+    }
+
+    render() {
+        const url = this.state.currentUrl || this.props.url
+        const prevUrl = this.state.prevUrl || this.state.currentUrl || this.props.url
         const wrapStyle = Object.assign({}, this.props.wrapStyle, {
             height: '100%',
         })
-        const imgStyle = {
-            display: 'none',
-        }
 
         // If refreshing is in use, do double-buffering
-        let imageArea = <ImageCanvas style={divStyle} />
+        let imageArea = this.renderImage(url, this.props)
         if (this.props.refreshInterval) {
             imageArea = (
                 <ImageWrapper style={wrapStyle}>
-                    <img src={prevUrl} style={imgStyle} onLoad={this.afterImageLoad()} />
-                    <ImageCanvas style={prevStyle}>
-                        <ImageCanvas style={divStyle} />
-                    </ImageCanvas>
+                    <img src={url} style={{ display: 'none' }} onLoad={null} />
+                    {this.renderImage(
+                        prevUrl,
+                        Object.assign({}, this.props, {
+                            opacity: this.state.counter % 2 === 0 ? 1 : 0,
+                        })
+                    )}
+                    {this.renderImage(
+                        url,
+                        Object.assign({}, this.props, {
+                            opacity: this.state.counter % 2 !== 0 ? 1 : 0,
+                        })
+                    )}
                 </ImageWrapper>
             )
         }
@@ -133,7 +139,7 @@ Image.propTypes = {
 }
 
 Image.defaultProps = {
-    refreshInterval: 5000,
+    refreshInterval: 15000,
     backgroundSize: 'cover',
     backgroundPosition: 'center center',
 }

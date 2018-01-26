@@ -14,13 +14,17 @@ it('has optional title', () => {
 it('updates image', () => {
     return new Promise((resolve, reject) => {
         const wrapper = shallow(
-            <Image refreshInterval={100} title="My title" url="http://domain.com/image.png" />
+            <Image
+                refreshInterval={100}
+                title="My title"
+                url="http://domain.com/image.png?foo=bar"
+            />
         )
 
         const validate = () => {
             try {
                 expect(wrapper.find('img').prop('src')).toEqual(
-                    'http://domain.com/image.png?counter=2'
+                    'http://domain.com/image.png?foo=bar&counter=2'
                 )
             } catch (error) {
                 reject(error)

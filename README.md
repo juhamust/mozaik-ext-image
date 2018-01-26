@@ -45,8 +45,8 @@ key                   | required | description
   url: 'http://domain.com/webcam.jpg',
   backgroundSize: 'cover',
   backgroundPosition: 'center -7vh',
-  // Refresh every 5s
-  refreshInterval: 5000,
+  // Refresh every 15s
+  refreshInterval: 15000,
   columns: 1, rows: 1,
   x: 0, y: 0
 }

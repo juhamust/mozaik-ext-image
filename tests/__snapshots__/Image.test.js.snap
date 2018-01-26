@@ -21,6 +21,7 @@ exports[`has optional title 1`] = `
       }
     >
       <img
+        onLoad={null}
         src="http://domain.com/image.png"
         style={
           Object {
@@ -33,21 +34,23 @@ exports[`has optional title 1`] = `
           Object {
             "backgroundColor": undefined,
             "backgroundImage": "url(http://domain.com/image.png)",
+            "backgroundPosition": "center center",
             "backgroundSize": "cover",
+            "opacity": 1,
           }
         }
-      >
-        <styled.div
-          style={
-            Object {
-              "backgroundColor": undefined,
-              "backgroundImage": "url(http://domain.com/image.png)",
-              "backgroundPosition": "center center",
-              "backgroundSize": "cover",
-            }
+      />
+      <styled.div
+        style={
+          Object {
+            "backgroundColor": undefined,
+            "backgroundImage": "url(http://domain.com/image.png)",
+            "backgroundPosition": "center center",
+            "backgroundSize": "cover",
+            "opacity": 0,
           }
-        />
-      </styled.div>
+        }
+      />
     </styled.div>
   </WidgetBody>
 </Widget>
@@ -68,6 +71,7 @@ exports[`matches with snapshot 1`] = `
       }
     >
       <img
+        onLoad={null}
         src="http://domain.com/image.png"
         style={
           Object {
@@ -80,21 +84,23 @@ exports[`matches with snapshot 1`] = `
           Object {
             "backgroundColor": undefined,
             "backgroundImage": "url(http://domain.com/image.png)",
+            "backgroundPosition": "center center",
             "backgroundSize": "cover",
+            "opacity": 1,
           }
         }
-      >
-        <styled.div
-          style={
-            Object {
-              "backgroundColor": undefined,
-              "backgroundImage": "url(http://domain.com/image.png)",
-              "backgroundPosition": "center center",
-              "backgroundSize": "cover",
-            }
+      />
+      <styled.div
+        style={
+          Object {
+            "backgroundColor": undefined,
+            "backgroundImage": "url(http://domain.com/image.png)",
+            "backgroundPosition": "center center",
+            "backgroundSize": "cover",
+            "opacity": 0,
           }
-        />
-      </styled.div>
+        }
+      />
     </styled.div>
   </WidgetBody>
 </Widget>
