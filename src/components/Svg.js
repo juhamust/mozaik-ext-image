@@ -5,7 +5,13 @@ import FileImageO from 'react-icons/lib/fa/file-image-o'
 import { Widget, WidgetHeader, WidgetBody } from '@mozaik/ui'
 import Vivus from 'vivus'
 
-const ImageArea = styled.div``
+const ImageArea = styled.div`
+  text-align: center;
+  svg,
+  object {
+    margin: auto;
+  }
+`
 const replaceRules = [
   { match: /fill-rule/gm, replace: 'fillRule' },
   { match: /stroke-width/gm, replace: 'strokeWidth' },
@@ -19,7 +25,7 @@ class Svg extends Component {
   }
 
   componentDidMount() {
-    if (!this._e) {
+    if (!this._e || !this.props.animate) {
       return
     }
 
@@ -75,6 +81,7 @@ class Svg extends Component {
 }
 
 Svg.propTypes = {
+  animate: PropTypes.bool,
   url: PropTypes.string,
   content: PropTypes.string,
   title: PropTypes.string,
@@ -92,6 +99,7 @@ Svg.propTypes = {
 }
 
 Svg.defaultProps = {
+  animate: false,
   loop: false,
   duration: 100,
   type: 'delayed',

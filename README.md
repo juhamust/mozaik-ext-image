@@ -75,6 +75,7 @@ key                   | required      | description
 ----------------------|---------------|---------------
 `url`                 | yes           | *URL to an image.*
 `title`               | no            | *Title to show in widget. Defaults to no header*
+`animate`               | no            | *Animate line drawing or not. Defaults to false*
 `content`             | maybe*        | *SVG image contents*
 `duration`             | no        | *TBD*
 `type`             | no        | *TBD*
