@@ -6,12 +6,15 @@ exports[`has optional title 1`] = `
 >
   <WithTheme(WidgetHeader)
     icon={[Function]}
-    subject="Status"
     subjectPlacement="append"
     title="My title"
   />
   <WidgetBody
-    style={Object {}}
+    style={
+      Object {
+        "top": false,
+      }
+    }
   >
     <styled.div
       style={
@@ -61,7 +64,11 @@ exports[`matches with snapshot 1`] = `
   style={Object {}}
 >
   <WidgetBody
-    style={Object {}}
+    style={
+      Object {
+        "top": 0,
+      }
+    }
   >
     <styled.div
       style={
