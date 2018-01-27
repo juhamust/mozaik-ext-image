@@ -2,7 +2,9 @@
 
 Show image in a widget. Supports also refreshing the image in timely bases, making it handy for webcams, daily comics or kittens :)
 
-📢  **NOTE:** [See mozaik-2 branch](https://github.com/juhamust/mozaik-ext-image/tree/mozaik-2) for Mozaik 2 compatible extension
+<div style="background-color: lightyellow; padding: 8px; border: 1px solid #444">
+📢 <b>NOTE:</b> <a href="https://github.com/juhamust/mozaik-ext-image/tree/mozaik-2">See mozaik-2 branch</a> for Mozaik 2 compatible extension
+</div>
 
 ![preview](https://raw.githubusercontent.com/juhamust/mozaik-ext-image/master/preview.png)
 
