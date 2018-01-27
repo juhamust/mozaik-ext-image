@@ -26,7 +26,8 @@
     "react-test-renderer": "^15.5.0",
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
-    "url-parse": "^1.2.0"
+    "url-parse": "^1.2.0",
+    "vivus": "^0.4.3"
   },
   "main": "./lib/components/index.js",
   "module": "es/components/index.js",

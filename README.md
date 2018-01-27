@@ -64,6 +64,43 @@ key                   | required | description
       y:                  0
   ```
 
+
+## Widget: image.Svg
+
+Show (and potentially animate) the SVG image in a widget
+
+### parameters
+
+key                   | required      | description
+----------------------|---------------|---------------
+`url`                 | yes           | *URL to an image.*
+`title`               | no            | *Title to show in widget. Defaults to no header*
+`content`             | maybe*        | *SVG image contents*
+`duration`             | no        | *TBD*
+`type`             | no        | *TBD*
+
+
+### usage
+
+- Register the widget
+- Add widget in dashboard configuration:
+
+  ```yml
+  widgets:
+    -
+      extension:          image
+      widget:             Svg
+      content: >
+        <svg>
+          <...>
+        </svg>
+      title:              Random image
+      columns:            1
+      rows:               1
+      x:                  0
+      y:                  0
+  ```
+
 ## Changelog
 
 #### 2.0.0-dev

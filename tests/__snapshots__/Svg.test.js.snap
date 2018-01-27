@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches with snapshot 1`] = `
+<Widget
+  style={Object {}}
+>
+  <WidgetBody
+    style={
+      Object {
+        "top": 0,
+      }
+    }
+  >
+    <styled.div
+      innerRef={[Function]}
+    >
+      <div
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "
+            <svg><test /></svg>
+            ",
+          }
+        }
+      />
+    </styled.div>
+  </WidgetBody>
+</Widget>
+`;
