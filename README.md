@@ -2,7 +2,7 @@
 
 Show image in a widget. Supports also refreshing the image in timely bases, making it handy for webcams, daily comics or kittens 😊
 
-![preview](https://raw.githubusercontent.com/juhamust/mozaik-ext-image/master/preview.png)
+![preview](https://raw.githubusercontent.com/juhamust/mozaik-ext-image/mozaik-2/preview.png)
 
 **Table of contents**
 <!-- MarkdownTOC depth=0 autolink=true bracket=round -->
@@ -18,10 +18,15 @@ Show image in a widget. Supports also refreshing the image in timely bases, maki
 ## Setup
 
 - Install extension: `npm i -S mozaik-ext-image`
-- Register widget: `mozaik.addBatch('image', require('mozaik-ext-image'));`
-- Add widget(s) in dashboard `config.js` (see Widget X specific documentation)
+- Register widget:
+  ```js
+  // register_extensions.js
+  import image from 'mozaik-ext-image'
+  Registry.addExtensions({ image, ... })
+  ```
+- Add widget(s) in dashboard `config.yml` (see Widget X specific documentation)
 
-## Widget: image.image
+## Widget: image.Image
 
 Show the image in widget.
 
