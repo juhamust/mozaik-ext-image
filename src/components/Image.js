@@ -5,8 +5,6 @@ import styled from 'styled-components'
 import FileImageO from 'react-icons/lib/fa/file-image-o'
 import { Widget, WidgetHeader, WidgetBody } from '@mozaik/ui'
 
-let intervalHandle
-
 const ImageWrapper = styled.div`
   position: relative;
 `
@@ -23,6 +21,7 @@ const ImageCanvas = styled.div`
 class Image extends Component {
   constructor(props) {
     super(props)
+    this.intervalHandle
     this.state = {
       currentUrl: null,
       prevUrl: null,
@@ -31,8 +30,8 @@ class Image extends Component {
   }
 
   componentWillUnmount() {
-    if (intervalHandle) {
-      clearInterval(intervalHandle)
+    if (this.intervalHandle) {
+      clearInterval(this.intervalHandle)
     }
   }
 
@@ -50,11 +49,11 @@ class Image extends Component {
     }
 
     // Set new update interval while removing existing
-    if (intervalHandle) {
-      clearInterval(intervalHandle)
+    if (this.intervalHandle) {
+      clearInterval(this.intervalHandle)
     }
 
-    intervalHandle = setInterval(() => {
+    this.intervalHandle = setInterval(() => {
       const nextCounterValue = this.state.counter + 1
       this.setState({
         counter: nextCounterValue,
@@ -93,19 +92,21 @@ class Image extends Component {
     // If refreshing is in use, do double-buffering
     let imageArea = this.renderImage(url, this.props)
     if (this.props.refreshInterval) {
+      const even = this.state.counter % 2 === 0
+      const odd = !even
       imageArea = (
         <ImageWrapper style={wrapStyle}>
           <img src={url} style={{ display: 'none' }} onLoad={null} />
           {this.renderImage(
-            prevUrl,
+            even ? url : prevUrl,
             Object.assign({}, this.props, {
-              opacity: this.state.counter % 2 === 0 ? 1 : 0,
+              opacity: even ? 1 : 0,
             })
           )}
           {this.renderImage(
-            url,
+            odd ? url : prevUrl,
             Object.assign({}, this.props, {
-              opacity: this.state.counter % 2 !== 0 ? 1 : 0,
+              opacity: odd ? 1 : 0,
             })
           )}
         </ImageWrapper>
@@ -115,14 +116,9 @@ class Image extends Component {
     return (
       <Widget>
         {this.props.title && (
-          <WidgetHeader
-            title={this.props.title}
-            subject="Status"
-            subjectPlacement="append"
-            icon={FileImageO}
-          />
+          <WidgetHeader title={this.props.title} subjectPlacement="append" icon={FileImageO} />
         )}
-        <WidgetBody>{imageArea}</WidgetBody>
+        <WidgetBody style={{ top: this.props.title === undefined && 0 }}>{imageArea}</WidgetBody>
       </Widget>
     )
   }
