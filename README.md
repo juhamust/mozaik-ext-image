@@ -68,13 +68,29 @@ key                   | required | description
 
 #### 2.0.0-dev
 
-- Support for Mozaik 2.x
-- Changed refreshInterval from seconds to milliseconds
+- Added for Mozaik 2.x
+- Changed refreshInterval unit from seconds to milliseconds
 - Changed title default value to no header
+
+#### 0.4.0
+
+- Added support for background styles
+
+#### 0.2.2
+
+- Updated package links
+
+#### 0.2.1
+
+- Improved documentation
+
+#### 0.2.0
+
+- Added double buffering when refreshing image
 
 #### 0.1.0
 
-- TBD
+- First public release
 
 ## License
 
