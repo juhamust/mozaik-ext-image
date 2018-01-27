@@ -6,6 +6,10 @@ import { Widget, WidgetHeader, WidgetBody } from '@mozaik/ui'
 import Vivus from 'vivus'
 
 const ImageArea = styled.div``
+const replaceRules = [
+  { match: /fill-rule/gm, replace: 'fillRule' },
+  { match: /stroke-width/gm, replace: 'strokeWidth' },
+]
 
 class Svg extends Component {
   componentWillUnmount() {
@@ -33,9 +37,17 @@ class Svg extends Component {
     })
   }
 
+  reactifyAttributes(content) {
+    let contentCopy = content
+    replaceRules.forEach(rule => {
+      contentCopy = contentCopy.replace(rule.match, rule.replace)
+    })
+    return contentCopy
+  }
+
   renderInline(content) {
     return {
-      __html: content,
+      __html: this.reactifyAttributes(content),
     }
   }
 
