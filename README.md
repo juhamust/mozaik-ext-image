@@ -2,20 +2,29 @@
 
 Show image in a widget. Supports also refreshing the image in timely bases, making it handy for webcams, daily comics or kittens 😊
 
-📢  **NOTE:** [See mozaik-2 branch](https://github.com/juhamust/mozaik-ext-image/tree/mozaik-2) for Mozaik 2 compatible extension
+📢  &nbsp; **NOTE** [See mozaik-2 branch](https://github.com/juhamust/mozaik-ext-image/tree/mozaik-2) for Mozaik 2 compatible extension
 
 ![preview](https://raw.githubusercontent.com/juhamust/mozaik-ext-image/mozaik-2/preview.png)
 
 **Table of contents**
-<!-- MarkdownTOC depth=0 autolink=true bracket=round -->
 
-- [Setup](#setup)
-- [Widget: image.image](#widget-imageimage)
-  - [parameters](#parameters)
-  - [usage](#usage)
-- [License](#license)
+- [Mozaïk image extension](#moza%C3%AFk-image-extension)
+  - [Setup](#setup)
+  - [Widget: image.Image](#widget-imageimage)
+    - [parameters](#parameters)
+    - [usage](#usage)
+  - [Widget: image.Svg](#widget-imagesvg)
+    - [parameters](#parameters)
+    - [usage](#usage)
+  - [Changelog](#changelog)
+      - [2.0.0-dev](#200-dev)
+      - [0.4.0](#040)
+      - [0.2.2](#022)
+      - [0.2.1](#021)
+      - [0.2.0](#020)
+      - [0.1.0](#010)
+  - [License](#license)
 
-<!-- /MarkdownTOC -->
 
 ## Setup
 
@@ -64,11 +73,53 @@ key                   | required | description
       y:                  0
   ```
 
+
+## Widget: image.Svg
+
+Show (and optionally animate the path drawing) the SVG image in a widget.
+
+### parameters
+
+key                   | required      | description
+----------------------|---------------|---------------
+`url`                 | depends           | *URL to an image. Either this or content needs to be defined. NOTE: Because of the browser CORS rules, an extension client is needed to download the file in temp folder. This is done automatically once registered*
+`content`             | depends        | *SVG image contents. Either this or url needs to be defined. Remember to use > to note multiline text*
+`title`               | no            | *Title to show in widget. Defaults to no header*
+`animation`             | no        | *Animation style if wanted to be used. Options: delayed, sync, oneByOne, script, scenario or scenario-sync. Defaults to empty which mean no animation. [See vivus documentation](https://github.com/maxwellito/vivus#option-list) for more info*
+`duration`             | no        | *Animation duration in frames. Defaults to 200*
+
+
+
+### usage
+
+- Register the widget
+- Add widget in dashboard configuration:
+
+  ```yml
+  widgets:
+    -
+      extension:          image
+      widget:             Svg
+      content: >
+        <svg>
+          <path ...>
+          <path data-ignore="true" ...>
+        </svg>
+      title:              Random image
+      animation:          oneByOne
+      speed:              100
+      columns:            1
+      rows:               1
+      x:                  0
+      y:                  0
+  ```
+
 ## Changelog
 
 #### 2.0.0-dev
 
 - Added for Mozaik 2.x
+- Added new widget: `image.Svg`
 - Changed refreshInterval unit from seconds to milliseconds
 - Changed title default value to no header
 
