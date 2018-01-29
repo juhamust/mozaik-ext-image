@@ -11,19 +11,21 @@ exports[`matches with snapshot 1`] = `
       }
     }
   >
-    <styled.div
-      innerRef={[Function]}
-    >
-      <div
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "
-            <svg><test /></svg>
-            ",
+    <TrapApiError>
+      <styled.div
+        innerRef={[Function]}
+      >
+        <div
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "
+              <svg><test /></svg>
+              ",
+            }
           }
-        }
-      />
-    </styled.div>
+        />
+      </styled.div>
+    </TrapApiError>
   </WidgetBody>
 </Widget>
 `;

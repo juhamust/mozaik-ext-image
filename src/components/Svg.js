@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import shajs from 'sha.js'
 import styled from 'styled-components'
 import FileImageO from 'react-icons/lib/fa/file-image-o'
-import { Widget, WidgetHeader, WidgetBody } from '@mozaik/ui'
+import { Widget, WidgetHeader, WidgetBody, WidgetLoader, TrapApiError } from '@mozaik/ui'
 import Vivus from 'vivus'
 
 const ImageArea = styled.div`
@@ -18,6 +19,24 @@ const replaceRules = [
 ]
 
 class Svg extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      loadedContent: null,
+    }
+  }
+
+  static getApiRequest({ url }) {
+    // Construct unique id based on URL
+    const id = `image.download.${shajs('sha256')
+      .update(url)
+      .digest('hex')}`
+    return {
+      id,
+      params: { url },
+    }
+  }
+
   componentWillUnmount() {
     if (this.intervalHandle) {
       clearInterval(this.intervalHandle)
@@ -25,22 +44,24 @@ class Svg extends Component {
   }
 
   componentDidMount() {
-    if (!this._e || !this.props.animate) {
+    const { animation, speed } = this.props
+    if (!this._e || !animation) {
       return
     }
 
-    const { type, duration } = this.props
-    const svgObject =
-      this._e.getElementsByTagName('object')[0] || this._e.getElementsByTagName('svg')[0]
-    const options = {
-      type,
-      duration,
-    }
-    new Vivus(svgObject, options, ref => {
-      if (this.props.loop && ref.getStatus() === 'end') {
-        ref.reset().play()
+    const svgObject = this._e.getElementsByTagName('svg')[0]
+    // Animate
+    if (svgObject && animation && animation !== '') {
+      const options = {
+        type: animation,
+        duration: speed,
       }
-    })
+      new Vivus(svgObject, options, ref => {
+        if (this.props.loop && ref.getStatus() === 'end') {
+          ref.reset().play()
+        }
+      })
+    }
   }
 
   reactifyAttributes(content) {
@@ -58,15 +79,14 @@ class Svg extends Component {
   }
 
   render() {
-    const { url } = this.props
-    const imageArea = (
+    const { apiError } = this.props
+    const content = this.props.content || (this.props.apiData && this.props.apiData.content)
+    const body = content ? (
       <ImageArea innerRef={e => (this._e = e)}>
-        {this.props.content ? (
-          <div dangerouslySetInnerHTML={this.renderInline(this.props.content)} />
-        ) : (
-          <object type="image/svg+xml" data={url} />
-        )}
+        <div dangerouslySetInnerHTML={this.renderInline(content)} />
       </ImageArea>
+    ) : (
+      <WidgetLoader />
     )
 
     return (
@@ -74,20 +94,22 @@ class Svg extends Component {
         {this.props.title && (
           <WidgetHeader title={this.props.title} subjectPlacement="append" icon={FileImageO} />
         )}
-        <WidgetBody style={{ top: this.props.title === undefined && 0 }}>{imageArea}</WidgetBody>
+        <WidgetBody style={{ top: this.props.title === undefined && 0 }}>
+          <TrapApiError error={apiError}>{body}</TrapApiError>
+        </WidgetBody>
       </Widget>
     )
   }
 }
 
 Svg.propTypes = {
-  animate: PropTypes.bool,
   url: PropTypes.string,
   content: PropTypes.string,
   title: PropTypes.string,
   loop: PropTypes.bool,
-  duration: PropTypes.number,
-  type: PropTypes.oneOf([
+  speed: PropTypes.number,
+  apiError: PropTypes.object,
+  animation: PropTypes.oneOf([
     'delayed',
     'sync',
     'oneByOne',
@@ -96,13 +118,15 @@ Svg.propTypes = {
     'scenario',
     'scenario-sync',
   ]),
+  apiData: PropTypes.shape({
+    content: PropTypes.string,
+  }),
 }
 
 Svg.defaultProps = {
   animate: false,
   loop: false,
-  duration: 100,
-  type: 'delayed',
+  speed: 100,
 }
 
 export default Svg
